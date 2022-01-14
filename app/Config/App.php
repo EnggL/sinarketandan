@@ -4,8 +4,8 @@ namespace Config;
 
 use CodeIgniter\Config\BaseConfig;
 
-$protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
-$server =  ($_SERVER['SERVER_ADDR'] == '::1') ? 'localhost':$_SERVER['SERVER_ADDR'];
+$protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+$server =  ($_SERVER['SERVER_ADDR'] == '::1') ? 'localhost':$_SERVER['HTTP_HOST'];
 define("CONST_BASE_URL", "{$protocol}{$server}/SinarKetandan/public/");
 
 class App extends BaseConfig
@@ -59,7 +59,7 @@ class App extends BaseConfig
      *
      * @var string
      */
-    public $uriProtocol = 'REQUEST_URI';
+    public $uriProtocol = 'PATH_INFO';
 
     /**
      * --------------------------------------------------------------------------
