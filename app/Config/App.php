@@ -6,7 +6,7 @@ use CodeIgniter\Config\BaseConfig;
 
 $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
 $server =  ($_SERVER['SERVER_ADDR'] == '::1') ? 'localhost':$_SERVER['HTTP_HOST'];
-define("CONST_BASE_URL", "{$protocol}{$server}/SinarKetandan/public/");
+define("CONST_BASE_URL", "{$protocol}{$server}/sinar-ketandan/");
 
 class App extends BaseConfig
 {
