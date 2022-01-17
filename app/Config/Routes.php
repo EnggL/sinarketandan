@@ -90,6 +90,8 @@ $routes->post('kegiatan/delete/image', 'Kegiatan::delete_image');
 $routes->post('kegiatan/delete/saran', 'Kegiatan::delete_saran');
 $routes->post('kegiatan/presensi', 'Kegiatan::presensi');
 $routes->post('kegiatan/approve/presensi', 'Kegiatan::approve_presensi');
+$routes->get('kegiatan/aktifkan/(:any)', 'Kegiatan::aktifkan_kegiatan/$1');
+$routes->get('kegiatan/nonaktifkan/(:any)', 'Kegiatan::nonaktifkan_kegiatan/$1');
 
 /*
  * --------------------------------------------------------------------

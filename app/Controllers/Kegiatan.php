@@ -95,6 +95,8 @@ class Kegiatan extends BaseController
 
     function add()
     {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
+
         $nama_kegiatan  = $this->request->getPost('nama_kegiatan');
         $waktu_mulai    = $this->request->getPost('waktu_mulai');
         $waktu_selesai  = $this->request->getPost('waktu_selesai');
@@ -163,6 +165,7 @@ class Kegiatan extends BaseController
 
     function update()
     {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
         // debug($_POST);
         $nama_kegiatan  = $this->request->getPost('nama_kegiatan');
         $waktu_mulai    = $this->request->getPost('waktu_mulai');
@@ -201,6 +204,7 @@ class Kegiatan extends BaseController
 
     public function updatePesertaKegiatan($data, $id)
     {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
         if(!$data) return false;
 
         $delete = $this->M_kegiatan->deletePesertaNotIn($data, $id);
@@ -223,6 +227,7 @@ class Kegiatan extends BaseController
 
     function delete($id = false)
     {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
         $id = simple_decrypt($id);
         if(!$id) die("Invalid ID");
 
@@ -363,5 +368,29 @@ class Kegiatan extends BaseController
             print_r($ret);
             // return redirect()->to('kegiatan');
         }
+    }
+
+    function aktifkan_kegiatan($id = false)
+    {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
+        $id = simple_decrypt($id);
+        if(!$id) die("Invalid ID");
+
+        $data['status_kegiatan'] = 1;
+        $this->M_kegiatan->updateKegiatan($data, $id);
+
+        return redirect()->to('kegiatan/lihat/'.simple_encrypt($id));
+    }
+
+    function nonaktifkan_kegiatan($id = false)
+    {
+        if(!cekHakAkses(AKSES)) return redirect()->to('logout');
+        $id = simple_decrypt($id);
+        if(!$id) die("Invalid ID");
+
+        $data['status_kegiatan'] = '0';
+        $this->M_kegiatan->updateKegiatan($data, $id);
+
+        return redirect()->to('kegiatan/lihat/'.simple_encrypt($id));
     }
 }
