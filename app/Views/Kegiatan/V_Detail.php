@@ -54,11 +54,13 @@
                 </table>
             </div>
             <br>
-            <div class="col text-center">
-                <span class="btn btn-success" id="btnPresensi">
-                    <i class="fas fa-clipboard-check"></i> Presensi
-                </span>
-            </div>
+            <?php if ($kegiatan->status_kegiatan): ?>
+                <div class="col text-center">
+                    <span class="btn btn-success" id="btnPresensi">
+                        <i class="fas fa-clipboard-check"></i> Presensi
+                    </span>
+                </div>
+            <?php endif ?>
 
             <?php if ($punya_akses): ?>
                 <br><br>
@@ -69,6 +71,15 @@
                     <button class="btn btn-danger" id="btnDelKegiatan" value="<?= simple_encrypt($kegiatan->id_kegiatan) ?>" Kegiatan="<?= $kegiatan->nama_kegiatan; ?>">
                         <i class="far fa-trash-alt"></i> Hapus
                     </button>
+                    <?php if ($kegiatan->status_kegiatan): ?>
+                        <a class="btn btn-warning" href="<?= site_url('kegiatan/nonaktifkan/'.simple_encrypt($kegiatan->id_kegiatan)) ?>">
+                           <i class="fas fa-toggle-off"></i>  Non Aktifkan
+                        </a>
+                    <?php else: ?>
+                        <a class="btn btn-info" href="<?= site_url('kegiatan/aktifkan/'.simple_encrypt($kegiatan->id_kegiatan)) ?>">
+                            <i class="fas fa-toggle-on"></i> Aktifkan
+                        </a>
+                    <?php endif ?>
                 </div>
             <?php endif ?>
         </div>
@@ -78,15 +89,17 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="<?= site_url('kegiatan/tambah/saran') ?>">
-                <h5 class="card-title-custom text-center">Kritik / Saran</h5>
-                <textarea class="form-control" name="saran" placeholder="Kritik / Saran untuk kegiatan ini" required=""></textarea>
-                <div class="col text-center" style="margin-top: 10px;">
-                    <button class="btn btn-success disableOnSubmit" name="kegiatan_id" value="<?= simple_encrypt($kegiatan->id_kegiatan) ?>">
-                        Submit
-                    </button>
-                </div>
-            </form>
+            <h5 class="card-title-custom text-center">Kritik / Saran</h5>
+            <?php if ($kegiatan->status_kegiatan): ?>
+                <form method="post" action="<?= site_url('kegiatan/tambah/saran') ?>">
+                    <textarea class="form-control" name="saran" placeholder="Kritik / Saran untuk kegiatan ini" required=""></textarea>
+                    <div class="col text-center" style="margin-top: 10px;">
+                        <button class="btn btn-success disableOnSubmit" name="kegiatan_id" value="<?= simple_encrypt($kegiatan->id_kegiatan) ?>">
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            <?php endif ?>
             <br>
             <table class="table">
                 <?php foreach ($saran as $s): ?>
@@ -104,15 +117,17 @@
 <div class="col-md-12">
     <div class="card">
         <div class="card-body">
-            <form method="post" action="<?= site_url('kegiatan/tambah/foto') ?>" enctype="multipart/form-data">
-                <h5 class="card-title-custom text-center">Foto Kegiatan</h5>
-                <input type="file" name="foto" class="form-control" placeholder="Foto kegiatan" required="">
-                <div class="col text-center" style="margin-top: 10px;">
-                    <button class="btn btn-success disableOnSubmit" name="kegiatan_id" value="<?= simple_encrypt($kegiatan->id_kegiatan) ?>">
-                        <i class="fas fa-plus"></i> Upload Foto
-                    </button>
-                </div>
-            </form>
+            <h5 class="card-title-custom text-center">Foto Kegiatan</h5>
+            <?php if ($kegiatan->status_kegiatan): ?>
+                <form method="post" action="<?= site_url('kegiatan/tambah/foto') ?>" enctype="multipart/form-data">
+                    <input type="file" name="foto" class="form-control" placeholder="Foto kegiatan" required="">
+                    <div class="col text-center" style="margin-top: 10px;">
+                        <button class="btn btn-success disableOnSubmit" name="kegiatan_id" value="<?= simple_encrypt($kegiatan->id_kegiatan) ?>">
+                            <i class="fas fa-plus"></i> Upload Foto
+                        </button>
+                    </div>
+                </form>
+            <?php endif ?>
             <br>
             <?php foreach ($lampiran as $l): ?>
                 <img src="<?= $l->lampiran ?>" class="img img-fluid rounded <?= $classFoto ?>" id="<?= simple_encrypt($l->id) ?>">
